@@ -23,3 +23,5 @@ desktop.ini
 
 # Vercel deployment folder
 .vercel/
+
+.vercel
