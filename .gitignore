@@ -25,3 +25,6 @@ desktop.ini
 .vercel/
 
 .vercel
+ 
+# Local backup of original Flask version
+backup_flask_app/

@@ -1,194 +1,199 @@
-"""app.py - Main Flask Application Controller for DueLine."""
-import os
-import uuid
-from flask import Flask, render_template, request, redirect, url_for, flash
-import storage
-import risk
+"""
+DueLine - Pure Python Mini-Project for Programming Lab Viva
+A simple command-line project and task manager with rule-based deadline risk prediction.
+"""
+import json, os, uuid
+from datetime import datetime, date
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-app = Flask(__name__, template_folder=os.path.join(BASE_DIR, "templates"), static_folder=os.path.join(BASE_DIR, "static"))
-app.secret_key = os.environ.get("SECRET_KEY", "dueline-college-lab-secret-key")
+DATA_FILE = "data.json"
 
-def get_data():
-    """Helper to load data and ensure projects and tasks lists exist."""
-    data = storage.load_data()
-    if not isinstance(data, dict):
-        data = storage.get_default_data()
-    data.setdefault("projects", [])
-    data.setdefault("tasks", [])
-    return data
+def load_data():
+    """Loads projects and tasks from data.json or returns default empty lists."""
+    if os.path.exists(DATA_FILE):
+        try:
+            with open(DATA_FILE) as f:
+                d = json.load(f)
+                return {"projects": d.get("projects", []), "tasks": d.get("tasks", [])}
+        except Exception:
+            pass
+    return {"projects": [], "tasks": []}
 
-def parse_positive_number(val_str):
-    """Validates and converts a string to a non-negative float."""
+def save_data(data):
+    """Saves projects and tasks dictionary to data.json."""
+    with open(DATA_FILE, "w") as f:
+        json.dump(data, f, indent=4)
+
+def parse_date(date_str):
+    """Converts a YYYY-MM-DD string into a date object, or None if invalid."""
     try:
-        val = float(val_str)
-        if val >= 0:
-            return True, val
-    except (ValueError, TypeError):
+        return datetime.strptime(date_str.strip(), "%Y-%m-%d").date()
+    except Exception:
+        return None
+
+def calculate_risk(completed, deadline_str, est_hours, avail_hours):
+    """Predicts task risk: COMPLETED, INVALID, OVERDUE, HIGH, MEDIUM, LOW."""
+    if completed:
+        return "COMPLETED"
+    dl = parse_date(deadline_str)
+    if not dl or est_hours is None or est_hours < 0:
+        return "INVALID"
+    today = date.today()
+    if dl < today:
+        return "OVERDUE"
+    if avail_hours is None:
+        avail_hours = max(0.0, float((dl - today).days * 8))
+    if avail_hours < 0:
+        return "INVALID"
+    if avail_hours < est_hours:
+        return "HIGH"
+    return "MEDIUM" if avail_hours < (est_hours * 1.2) else "LOW"
+
+def get_project_stats(project, tasks):
+    """Calculates completed count, total count, and progress % for a project."""
+    p_tasks = [t for t in tasks if t.get("project_id") == project.get("id")]
+    done = sum(1 for t in p_tasks if t.get("completed"))
+    pct = round((done / len(p_tasks)) * 100, 1) if p_tasks else 0.0
+    return done, len(p_tasks), pct
+
+def add_project(data):
+    """Creates a new project with name, description, and deadline."""
+    name = input("\nEnter project name: ").strip()
+    desc = input("Enter description: ").strip()
+    dl = input("Enter deadline (YYYY-MM-DD): ").strip()
+    if not name or not parse_date(dl):
+        print("Error: Name cannot be empty and deadline must be YYYY-MM-DD.")
+        return
+    data["projects"].append({"id": uuid.uuid4().hex[:8], "name": name, "description": desc, "deadline": dl})
+    save_data(data)
+    print(f"Success: Project '{name}' created!")
+
+def view_projects(data):
+    """Displays all projects and calculates completion percentage."""
+    if not data["projects"]:
+        print("\nNo projects found.")
+        return
+    print(f"\n{'#':<3} {'Project Name':<20} {'Deadline':<12} {'Tasks':<10} {'Progress'}\n" + "-" * 55)
+    for i, p in enumerate(data["projects"], 1):
+        done, total, pct = get_project_stats(p, data["tasks"])
+        print(f"{i:<3} {p['name'][:18]:<20} {p.get('deadline',''):<12} {f'{done}/{total}':<10} {pct}%")
+
+def add_task(data):
+    """Creates a task linked to an existing project."""
+    if not data["projects"]:
+        print("\nError: Please add at least one project first.")
+        return
+    print("\nProjects:")
+    for i, p in enumerate(data["projects"], 1):
+        print(f"  {i}. {p['name']}")
+    try:
+        idx = int(input("Select Project Number: ")) - 1
+        project = data["projects"][idx]
+        name = input("Enter task name: ").strip()
+        dl = input("Enter deadline (YYYY-MM-DD): ").strip()
+        if not name or not parse_date(dl):
+            print("Error: Invalid task name or deadline format.")
+            return
+        est = float(input("Enter estimated hours: "))
+        avail_in = input("Enter available hours (press Enter for auto @ 8h/day): ").strip()
+        avail = float(avail_in) if avail_in else None
+        if est < 0 or (avail is not None and avail < 0):
+            print("Error: Hours cannot be negative.")
+            return
+    except (ValueError, IndexError):
+        print("Error: Invalid input value.")
+        return
+    status = calculate_risk(False, dl, est, avail)
+    effective_avail = avail if avail is not None else max(0.0, float((parse_date(dl) - date.today()).days * 8))
+    data["tasks"].append({
+        "id": uuid.uuid4().hex[:8], "name": name, "project_id": project["id"],
+        "deadline": dl, "estimated_hours": est, "available_hours": effective_avail,
+        "completed": False, "status": status
+    })
+    save_data(data)
+    print(f"Success: Task '{name}' added with Risk Status: {status}")
+
+def view_tasks(data):
+    """Displays all tasks with project name, hours, and predicted risk."""
+    if not data["tasks"]:
+        print("\nNo tasks found.")
+        return
+    p_map = {p["id"]: p["name"] for p in data["projects"]}
+    print(f"\n{'#':<3} {'Task Name':<18} {'Project':<15} {'Deadline':<12} {'Hours (Est/Avail)':<18} {'Status'}\n" + "-" * 75)
+    for i, t in enumerate(data["tasks"], 1):
+        status = calculate_risk(t.get("completed"), t.get("deadline"), t.get("estimated_hours"), t.get("available_hours"))
+        hours = f"{t.get('estimated_hours',0)}h / {t.get('available_hours',0)}h"
+        print(f"{i:<3} {t['name'][:16]:<18} {p_map.get(t['project_id'],'Unknown')[:13]:<15} {t.get('deadline',''):<12} {hours:<18} {status}")
+
+def pick_task(data, action):
+    """Helper to display tasks and safely get user selection."""
+    if not data["tasks"]:
+        print(f"\nNo tasks to {action}.")
+        return None
+    view_tasks(data)
+    try:
+        idx = int(input(f"\nEnter task number to {action}: ")) - 1
+        if 0 <= idx < len(data["tasks"]):
+            return idx
+    except (ValueError, IndexError):
         pass
-    return False, None
+    print("Error: Invalid task selection.")
+    return None
 
-def get_projects_with_progress(projects, tasks):
-    """Calculates completion progress percentage for each project."""
-    result = []
+def complete_task(data):
+    """Marks a selected task as completed."""
+    idx = pick_task(data, "complete")
+    if idx is not None:
+        data["tasks"][idx]["completed"] = True
+        data["tasks"][idx]["status"] = "COMPLETED"
+        save_data(data)
+        print(f"Success: Task '{data['tasks'][idx]['name']}' marked completed!")
+
+def delete_task(data):
+    """Deletes a selected task from storage."""
+    idx = pick_task(data, "delete")
+    if idx is not None:
+        removed = data["tasks"].pop(idx)
+        save_data(data)
+        print(f"Success: Task '{removed['name']}' deleted!")
+
+def view_dashboard(data):
+    """Displays dashboard summary statistics, progress, and upcoming tasks."""
+    projects, tasks = data["projects"], data["tasks"]
+    done = sum(1 for t in tasks if t.get("completed"))
+    print("\n" + "=" * 45 + "\n             DUELINE DASHBOARD\n" + "=" * 45)
+    print(f" Total Projects  : {len(projects)}\n Total Tasks     : {len(tasks)}\n Completed Tasks : {done}\n Pending Tasks   : {len(tasks) - done}\n" + "-" * 45)
+    print("Project Progress:")
     for p in projects:
-        p_copy = dict(p)
-        pid = p_copy.get("id", "")
-        p_tasks = [t for t in tasks if t.get("project_id") == pid]
-        total = len(p_tasks)
-        completed = sum(1 for t in p_tasks if t.get("completed") is True)
-        p_copy["total_tasks"] = total
-        p_copy["completed_tasks"] = completed
-        p_copy["progress"] = round((completed / total) * 100.0, 1) if total > 0 else 0.0
-        result.append(p_copy)
-    return result
+        done_p, total_p, pct = get_project_stats(p, tasks)
+        print(f"  - {p['name']}: {pct}% ({done_p}/{total_p} tasks)")
+    print("-" * 45 + "\nUpcoming Pending Tasks:")
+    pending = sorted([t for t in tasks if not t.get("completed")], key=lambda t: t.get("deadline", "9999-99-99"))
+    for t in pending:
+        risk = calculate_risk(False, t.get("deadline"), t.get("estimated_hours"), t.get("available_hours"))
+        print(f"  - [{risk}] {t['name']} (Due: {t.get('deadline')})")
+    if not pending:
+        print("  All tasks completed! Great job.")
+    print("=" * 45)
 
-def get_enriched_tasks(tasks, projects):
-    """Enriches each task with project name, risk status, and explanation."""
-    project_map = {p.get("id"): p.get("name", "Unnamed") for p in projects}
-    enriched = []
-    for t in tasks:
-        t_copy = dict(t)
-        dl = t_copy.get("deadline", "")
-        est = t_copy.get("estimated_hours", 0)
-        avail = t_copy.get("available_hours", 0)
-        is_done = t_copy.get("completed") is True
-        
-        status = risk.determine_task_status(is_done, dl, est, avail)
-        t_copy["status"] = status
-        t_copy["risk_explanation"] = risk.get_risk_explanation(status)
-        t_copy["project_name"] = project_map.get(t_copy.get("project_id"), "Unknown Project")
-        enriched.append(t_copy)
-    return enriched
-
-@app.route("/")
-def dashboard():
-    """Dashboard view: shows summary statistics and upcoming deadlines."""
-    data = get_data()
-    projects = get_projects_with_progress(data["projects"], data["tasks"])
-    tasks = get_enriched_tasks(data["tasks"], data["projects"])
-    
-    completed = sum(1 for t in tasks if t.get("completed") is True)
-    stats = {
-        "total_projects": len(projects),
-        "total_tasks": len(tasks),
-        "completed_tasks": completed,
-        "pending_tasks": len(tasks) - completed,
+def main():
+    """Main terminal loop with user menu."""
+    data = load_data()
+    actions = {
+        "1": add_project, "2": view_projects, "3": add_task,
+        "4": view_tasks, "5": complete_task, "6": delete_task, "7": view_dashboard
     }
-    
-    upcoming = [t for t in tasks if not t.get("completed")]
-    upcoming.sort(key=lambda t: t.get("deadline") or "9999-99-99")
-    
-    return render_template("dashboard.html", stats=stats, projects=projects, upcoming_tasks=upcoming)
-
-@app.route("/projects", methods=["GET", "POST"])
-def projects():
-    """Projects view: displays projects and handles creating new projects."""
-    data = get_data()
-    if request.method == "POST":
-        name = request.form.get("name", "").strip()
-        description = request.form.get("description", "").strip()
-        deadline = request.form.get("deadline", "").strip()
-
-        if not name:
-            flash("Project name is required.", "danger")
-            return redirect(url_for("projects"))
-        if not deadline or risk.parse_deadline(deadline) is None:
-            flash("A valid deadline in YYYY-MM-DD format is required.", "danger")
-            return redirect(url_for("projects"))
-
-        new_project = {
-            "id": str(uuid.uuid4())[:8],
-            "name": name,
-            "description": description,
-            "deadline": deadline,
-        }
-        data["projects"].append(new_project)
-        storage.save_data(data)
-        flash(f"Project '{name}' created successfully!", "success")
-        return redirect(url_for("projects"))
-
-    projects_list = get_projects_with_progress(data["projects"], data["tasks"])
-    return render_template("projects.html", projects=projects_list)
-
-@app.route("/tasks", methods=["GET", "POST"])
-def tasks():
-    """Tasks view: displays tasks and handles adding new tasks."""
-    data = get_data()
-    if request.method == "POST":
-        name = request.form.get("name", "").strip()
-        project_id = request.form.get("project_id", "").strip()
-        goal = request.form.get("goal", "").strip()
-        deadline = request.form.get("deadline", "").strip()
-
-        if not name:
-            flash("Task name is required.", "danger")
-            return redirect(url_for("tasks"))
-        
-        valid_pids = {p.get("id") for p in data["projects"]}
-        if not project_id or project_id not in valid_pids:
-            flash("Please select a valid existing project.", "danger")
-            return redirect(url_for("tasks"))
-
-        if not deadline or risk.parse_deadline(deadline) is None:
-            flash("A valid deadline in YYYY-MM-DD format is required.", "danger")
-            return redirect(url_for("tasks"))
-
-        ok_est, est_hours = parse_positive_number(request.form.get("estimated_hours", ""))
-        if not ok_est:
-            flash("Estimated hours must be a valid non-negative number.", "danger")
-            return redirect(url_for("tasks"))
-
-        ok_avail, avail_hours = parse_positive_number(request.form.get("available_hours", ""))
-        if not ok_avail:
-            flash("Available working hours must be a valid non-negative number.", "danger")
-            return redirect(url_for("tasks"))
-
-        new_task = {
-            "id": str(uuid.uuid4())[:8],
-            "name": name,
-            "project_id": project_id,
-            "goal": goal,
-            "deadline": deadline,
-            "estimated_hours": est_hours,
-            "available_hours": avail_hours,
-            "completed": False,
-            "status": risk.determine_task_status(False, deadline, est_hours, avail_hours),
-        }
-        data["tasks"].append(new_task)
-        storage.save_data(data)
-        flash(f"Task '{name}' added successfully!", "success")
-        return redirect(url_for("tasks"))
-
-    enriched = get_enriched_tasks(data["tasks"], data["projects"])
-    return render_template("tasks.html", tasks=enriched, projects=data["projects"])
-
-@app.route("/tasks/complete/<task_id>", methods=["POST"])
-def complete_task(task_id):
-    """Marks a task as completed."""
-    data = get_data()
-    for t in data["tasks"]:
-        if t.get("id") == task_id:
-            t["completed"] = True
-            t["status"] = "COMPLETED"
-            storage.save_data(data)
-            flash("Task marked as completed!", "success")
-            return redirect(url_for("tasks"))
-    flash("Task not found.", "danger")
-    return redirect(url_for("tasks"))
-
-@app.route("/tasks/delete/<task_id>", methods=["POST"])
-def delete_task(task_id):
-    """Deletes a task by ID."""
-    data = get_data()
-    init_len = len(data["tasks"])
-    data["tasks"] = [t for t in data["tasks"] if t.get("id") != task_id]
-    if len(data["tasks"]) < init_len:
-        storage.save_data(data)
-        flash("Task deleted successfully!", "success")
-    else:
-        flash("Task not found.", "danger")
-    return redirect(url_for("tasks"))
+    menu = "\n=== DueLine Menu ===\n1. Add Project\n2. View Projects\n3. Add Task\n4. View Tasks\n5. Mark Task as Completed\n6. Delete Task\n7. View Dashboard\n8. Exit"
+    while True:
+        print(menu)
+        choice = input("Enter choice (1-8): ").strip()
+        if choice == "8":
+            print("\nThank you for using DueLine! Goodbye.")
+            break
+        action = actions.get(choice)
+        if action:
+            action(data)
+        else:
+            print("Invalid choice! Please choose a number from 1 to 8.")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    main()

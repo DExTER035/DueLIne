@@ -1,197 +1,216 @@
-# DueLine
+# DueLine — Python Programming Lab Mini-Project
 
-> **Stay ahead of every deadline.**
+> **A Pure Python Command-Line Project & Task Manager with Rule-Based Deadline Risk Prediction**
 
-**Official Title:** A Web-Based Project and Task Management System with Rule-Based Deadline Risk Prediction  
-**Project Category:** Python Programming Lab Mini-Project  
-**Technology:** Python, Flask, HTML5, Vanilla CSS, JSON Storage  
+- **Course:** Python Programming Laboratory (2nd Year B.Tech)
+- **Language:** Python 3 (Standard Library only — Zero external dependencies)
+- **Data Persistence:** Local JSON File Storage (`data.json`)
+- **Interface:** Interactive Command-Line Terminal Menu
 
 ---
 
 ## 1. Project Overview
 
-**DueLine** is a clean, student-friendly web application designed to help users organize their academic and personal projects. It tracks projects, individual tasks, target deadlines, estimated work hours, and available working hours to provide clear foresight into upcoming workloads.
+**DueLine** is a lightweight, pure Python console application designed to help students manage academic projects, track individual tasks, and assess deadline feasibility. 
 
-By comparing the estimated time required for a task against the working hours available before its deadline, DueLine automatically evaluates deadline feasibility using deterministic, rule-based heuristics to help students avoid last-minute rushes and submit work on schedule.
+Unlike basic to-do lists that only store static dates, DueLine incorporates a **deterministic, rule-based risk prediction system**. It calculates whether a student has sufficient working hours left to complete a task before its deadline, assigning an intuitive risk rating (`LOW`, `MEDIUM`, `HIGH`, `OVERDUE`, `COMPLETED`, `INVALID`).
 
----
-
-## 2. Problem Statement & Objectives
-
-### Problem Statement
-Students and lab participants frequently manage multiple coursework assignments, lab reports, and team projects with overlapping deadlines. Conventional to-do applications simply list dates without considering workload feasibility—whether the user actually has enough working hours left before the deadline to complete the work. This lack of insight leads to inaccurate scheduling, task bottlenecks, and overdue submissions.
-
-### Objectives
-- **Centralized Management:** Provide an intuitive dashboard to organize related tasks under dedicated project workspaces.
-- **Workload Feasibility Analysis:** Compare estimated work hours against available working hours to determine realistic completion probability.
-- **Rule-Based Risk Classification:** Provide clear, explainable deadline risk indicators (`HIGH`, `MEDIUM`, `LOW`, `OVERDUE`, `COMPLETED`, `INVALID`) without opaque black-box models.
-- **Progress Tracking:** Dynamically calculate and visualize project completion percentages based on finished tasks.
-- **Zero-Config Local Persistence:** Store all records reliably in a local JSON file without external database configuration.
+All data is automatically loaded from and saved to `data.json`. No web frameworks, database installations, or external packages (`pip`) are required.
 
 ---
 
-## 3. Implemented Features
+## 2. Project Structure
 
-- **Project Management (`/projects`):**
-  - Create projects with a name, description, and target deadline.
-  - View project cards displaying target dates, task counts, and dynamic progress bars.
-  - Safe validation: Requires non-empty project names and valid `YYYY-MM-DD` deadlines.
+The project strictly adheres to a minimal, beginner-friendly structure:
 
-- **Task Management (`/tasks`):**
-  - Create tasks assigned to valid existing projects with an optional goal, deadline, estimated work hours, and available working hours.
-  - Prevent adding tasks until at least one valid project exists.
-  - View all tasks in a structured, sortable data table showing project tags, deadlines, hours, and status badges.
-  - Mark tasks complete with a single click, immediately updating the status and project progress.
-  - Delete individual tasks safely with browser confirmation dialogs.
+```text
+DueLine/
+├── app.py          # Complete application logic (menu, storage, validation, risk logic)
+├── data.json       # JSON database storing projects and tasks
+└── README.md       # Project documentation, function guides, and viva prep
+```
 
-- **Dashboard Overview (`/`):**
-  - Four compact summary cards: **Total Projects**, **Total Tasks**, **Completed Tasks**, and **Pending Tasks**.
-  - **Upcoming Tasks Table:** Lists active, incomplete tasks prioritized by approaching deadlines with visible status badges and risk explanations.
-  - Quick-action button to navigate directly to task creation.
-
-- **Responsive, Mobile-First User Interface:**
-  - Desktop layout with a sticky left sidebar navigation.
-  - Mobile layout with a compact top brand header and a fixed bottom navigation bar.
-  - Accessible keyboard focus rings (`:focus-visible`) across all buttons and inputs.
-  - Contained horizontal table scrolling on small screens to prevent page-level overflow.
+> **Note:** A complete backup of the original Flask web version is preserved separately in the `backup_flask_app/` directory for reference.
 
 ---
 
-## 4. Rule-Based Deadline Risk Classification
+## 3. Features & Terminal Menu
 
-Task status and risk are computed deterministically by `risk.py`. The system applies a strict order of precedence:
+When executed, DueLine presents an interactive 8-option terminal menu:
 
-### Evaluation Precedence
-1. **COMPLETED:** Highest precedence. If a task is marked complete (`completed is True`), it immediately receives the `COMPLETED` status. Finished tasks carry zero remaining risk.
-2. **INVALID:** If an incomplete task has a missing, non-string, or unparseable deadline date, it is assigned the `INVALID` status.
-3. **OVERDUE:** If the deadline has already passed relative to today's date and the task is incomplete, it is marked `OVERDUE` before normal workload risk is assessed.
-4. **Workload Risk Levels:** Active tasks with valid upcoming deadlines are evaluated by comparing available working hours to estimated work hours:
+```text
+=== DueLine Menu ===
+1. Add Project
+2. View Projects
+3. Add Task
+4. View Tasks
+5. Mark Task as Completed
+6. Delete Task
+7. View Dashboard
+8. Exit
+```
 
-| Status Badge | Rule Criteria | Explanation |
+### Feature Details:
+1. **Add Project:** Prompts for a project name, description, and target deadline (`YYYY-MM-DD`). Generates a unique 8-character ID.
+2. **View Projects:** Lists all projects in a formatted table showing name, target deadline, task counts (`completed/total`), and overall completion percentage.
+3. **Add Task:** Displays existing projects, lets the user select one by number, and collects task name, deadline, estimated work hours, and available working hours (with an option to auto-calculate available hours at 8 hours/day).
+4. **View Tasks:** Displays all recorded tasks along with their assigned project, deadline, hours ratio, and evaluated risk status.
+5. **Mark Task as Completed:** Shows active tasks and updates a chosen task's status to `COMPLETED`.
+6. **Delete Task:** Safely removes an obsolete or canceled task by list index.
+7. **View Dashboard:** Displays a high-level summary of total projects, total tasks, completed vs. pending tasks, per-project progress percentages, and upcoming pending tasks sorted by urgency.
+8. **Exit:** Gracefully terminates the program with a parting message.
+
+---
+
+## 4. Rule-Based Deadline Risk Prediction
+
+### Important Note on Methodology
+> **DueLine uses a deterministic, rule-based heuristic model, NOT Machine Learning.**  
+> Every classification is transparent, reproducible, and derived mathematically from user-provided dates and hours. No black-box training or neural networks are involved.
+
+### Evaluation Precedence & Rules:
+
+| Risk Status | Condition / Rule | Explanation |
 | :--- | :--- | :--- |
-| **COMPLETED** | `completed is True` | Task is finished. Highest precedence; zero remaining risk. |
-| **OVERDUE** | `deadline < today` (incomplete) | Target deadline has passed. Immediate attention required. |
-| **HIGH** | `available_hours < estimated_hours` | Available hours are insufficient to finish estimated work. High risk of missing deadline. |
-| **MEDIUM** | `estimated_hours <= available_hours < 1.2 * estimated_hours` | Available hours cover the work, but safety buffer is under 20%. Tight schedule. |
-| **LOW** | `available_hours >= 1.2 * estimated_hours` | Sufficient hours available with at least a 20% safety margin for unexpected delays. |
-| **INVALID** | Negative numbers, NaN, infinity, or unparseable date | Input values are invalid, negative, non-numeric, or malformed. |
+| **`COMPLETED`** | `completed == True` | Highest priority. The task is finished; zero remaining risk. |
+| **`INVALID`** | Malformed date or negative hours | Date could not be parsed as `YYYY-MM-DD` or numeric hours are $< 0$. |
+| **`OVERDUE`** | `deadline < date.today()` (incomplete) | Target deadline has already passed and work is unfinished. |
+| **`HIGH`** | `available_hours < estimated_hours` | Insufficient working hours remaining to finish the estimated workload. |
+| **`MEDIUM`** | `estimated_hours <= available_hours < 1.2 * estimated_hours` | Available hours cover the work, but safety buffer is under 20%. Tight schedule. |
+| **`LOW`** | `available_hours >= 1.2 * estimated_hours` | Sufficient hours available with at least a 20% safety margin. |
+
+### Working Hours Calculation:
+- **Manual Input:** If the user specifies available working hours (e.g., `10`), that value is used directly.
+- **Automatic Fallback:** If the user presses `Enter` without entering hours, the system calculates available hours based on standard working days:
+  $$\text{Available Hours} = \max\left(0, (\text{Deadline Date} - \text{Today's Date}) \times 8\right)$$
 
 ---
 
 ## 5. Project Progress Calculation
 
-Project progress is calculated dynamically in `app.py` based on completed tasks belonging to each project:
+Project progress is dynamically evaluated using the ratio of completed tasks to total tasks linked to that project:
 
-$$\text{Progress (\%)} = \left( \frac{\text{Completed Tasks}}{\text{Total Tasks}} \right) \times 100$$
+$$\text{Progress (\%)} = \begin{cases} \left( \dfrac{\text{Completed Tasks}}{\text{Total Tasks}} \right) \times 100, & \text{if Total Tasks} > 0 \\ 0.0\%, & \text{if Total Tasks} = 0 \end{cases}$$
 
-- A task is counted as completed strictly when `completed is True`.
-- If a project has no tasks recorded yet, its progress safely defaults to **0%**.
-- Rendered progress values are clamped between **0%** and **100%** and presented via an accessible HTML5 `<progress>` element.
+All progress percentages are rounded to one decimal place.
 
 ---
 
-## 6. Technology Stack
+## 6. How to Run the Project
 
-- **Backend:** Python 3, Flask (lightweight WSGI web application framework)
-- **Frontend:** HTML5 (semantic elements), Vanilla CSS (custom mobile-first stylesheet in `static/style.css`)
-- **Data Persistence:** Local JSON file storage (`data.json`) via Python's standard `json` and `os.path` modules
-- **Template Engine:** Jinja2 (server-side HTML rendering)
+DueLine requires **Python 3.10+** and relies solely on Python's built-in standard library (`json`, `os`, `uuid`, `datetime`).
 
----
-
-## 7. Project Folder Structure
-
-The project directory consists strictly of the following implemented files:
-
-```
-DueLine/
-├── .gitignore            # Git exclusion rules for virtual environments and cache
-├── app.py                # Main Flask controller, application routes, and input validation
-├── README.md             # Project documentation and setup instructions
-├── requirements.txt      # Third-party Python dependencies (Flask)
-├── risk.py               # Deterministic deadline risk prediction and status evaluation module
-├── storage.py            # Local JSON data persistence module (reads/writes data.json)
-├── static/
-│   └── style.css         # Custom responsive stylesheet (warm off-white & dark teal theme)
-└── templates/
-    ├── base.html         # Base template with desktop sidebar, mobile nav, and flash messages
-    ├── dashboard.html    # Dashboard view with summary statistics and upcoming tasks
-    ├── projects.html     # Projects management view with project cards and progress bars
-    └── tasks.html        # Tasks management view with risk table, action buttons, and form
-```
-
-> **Note:** The data persistence file `data.json` is automatically created in the root directory upon the first project or task save.
+### Step-by-Step:
+1. Open PowerShell, Command Prompt, or terminal.
+2. Navigate to the project directory:
+   ```powershell
+   cd c:\Users\insan\OneDrive\Desktop\DueLine
+   ```
+3. Run the application:
+   ```powershell
+   python app.py
+   ```
 
 ---
 
-## 8. Setup Instructions for Windows
+## 7. Function-by-Function Code Explanation
 
-Follow these step-by-step instructions in PowerShell or Command Prompt:
+For your college lab viva, here is an explanation of every function in `app.py`:
 
-### 1. Prerequisites
-Ensure Python 3.10 or higher is installed and added to your system `PATH`. Verify with:
-```powershell
-python --version
-```
+### 1. `load_data()`
+- **Purpose:** Reads `data.json` from the disk.
+- **How it works:** Checks if `data.json` exists using `os.path.exists()`. If found, parses JSON with `json.load()`. Returns a dictionary containing `"projects"` and `"tasks"` lists. If the file is missing or corrupted, gracefully returns `{"projects": [], "tasks": []}` inside a `try/except` block to prevent crashes.
 
-### 2. Open Project Directory
-Navigate to the root directory where the project files reside:
-```powershell
-cd c:\Users\insan\OneDrive\Desktop\DueLine
-```
+### 2. `save_data(data)`
+- **Purpose:** Persists current state back to disk.
+- **How it works:** Opens `data.json` in write mode (`"w"`) and uses `json.dump(data, f, indent=4)` to format the file with human-readable 4-space indentation.
 
-### 3. Create a Virtual Environment
-Create an isolated virtual environment named `.venv`:
-```powershell
-python -m venv .venv
-```
+### 3. `parse_date(date_str)`
+- **Purpose:** Validates and converts user date strings.
+- **How it works:** Uses `datetime.strptime(date_str.strip(), "%Y-%m-%d").date()`. Returns a Python `date` object if valid, or `None` if the input is malformed.
 
-### 4. Activate the Virtual Environment
-Activate the environment:
-```powershell
-.venv\Scripts\activate
-```
-*(If you encounter a script execution restriction in PowerShell, run `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process` first, then activate).*
+### 4. `calculate_risk(completed, deadline_str, est_hours, avail_hours)`
+- **Purpose:** Core heuristic engine that determines task risk.
+- **How it works:** Sequentially tests conditions:
+  1. If `completed` is true $\to$ `"COMPLETED"`.
+  2. If date is unparseable or hours $< 0$ $\to$ `"INVALID"`.
+  3. If deadline date $<$ today $\to$ `"OVERDUE"`.
+  4. If available hours not provided $\to$ auto-calculates `(deadline - today).days * 8`.
+  5. Compares available vs. estimated hours to return `"HIGH"`, `"MEDIUM"`, or `"LOW"`.
 
-### 5. Install Dependencies
-Install Flask from `requirements.txt`:
-```powershell
-pip install -r requirements.txt
-```
+### 5. `get_project_stats(project, tasks)`
+- **Purpose:** Helper function to calculate completion counts and percentage for any project.
+- **How it works:** Filters tasks matching `project["id"]`, counts how many have `completed == True`, and returns `(done, total, percentage)`. Avoids code duplication between `view_projects` and `view_dashboard`.
 
-### 6. Run the Application
-Start the Flask development server using the entry point in `app.py`:
-```powershell
-python app.py
-```
+### 6. `add_project(data)`
+- **Purpose:** Handles project creation workflow.
+- **How it works:** Asks user for name, description, and deadline. Validates inputs, creates a project dictionary with a unique ID from `uuid.uuid4().hex[:8]`, appends it to `data["projects"]`, and calls `save_data()`.
 
-### 7. Access in Browser
-Open your web browser and navigate to:
-```
-thedueline.vercel.app
-```
+### 7. `view_projects(data)`
+- **Purpose:** Displays all projects in a clean CLI table.
+- **How it works:** Iterates over `data["projects"]`, invokes `get_project_stats()`, and prints aligned columns for name, deadline, task counts, and percentage.
 
-Press `Ctrl + C` in the terminal to stop the server when finished.
+### 8. `add_task(data)`
+- **Purpose:** Handles task creation linked to an existing project.
+- **How it works:** Displays numbered list of projects so the user selects by index (`1`, `2`, ...). Gathers task name, deadline, and estimated hours. Optionally reads available hours or defaults to 8h/day. Computes risk via `calculate_risk()`, stores the task, and saves to JSON.
+
+### 9. `view_tasks(data)`
+- **Purpose:** Displays all tasks in a formatted table.
+- **How it works:** Creates a lookup dictionary `p_map` mapping project IDs to names. Dynamically re-evaluates risk for each task so that overdue dates update automatically as days pass.
+
+### 10. `pick_task(data, action)`
+- **Purpose:** Reusable helper to display tasks and safely capture a valid 1-based index from user input.
+- **How it works:** Calls `view_tasks(data)` and prompts for task number. Uses `try/except (ValueError, IndexError)` to ensure out-of-range or non-numeric inputs do not crash the app.
+
+### 11. `complete_task(data)`
+- **Purpose:** Marks an active task as finished.
+- **How it works:** Uses `pick_task(data, "complete")` to get index, sets `task["completed"] = True` and `task["status"] = "COMPLETED"`, then saves to JSON.
+
+### 12. `delete_task(data)`
+- **Purpose:** Removes a task from the system.
+- **How it works:** Uses `pick_task(data, "delete")` to get index, pops the task from `data["tasks"]` with `.pop(idx)`, and saves the updated list to JSON.
+
+### 13. `view_dashboard(data)`
+- **Purpose:** Executive summary overview.
+- **How it works:** Calculates total projects, total tasks, completed vs. pending tasks. Prints each project's progress bar, followed by pending tasks sorted chronologically by deadline.
+
+### 14. `main()`
+- **Purpose:** Entry point and infinite control loop.
+- **How it works:** Loads data once at startup, prints the 8-option menu, reads choice string, and delegates to corresponding handler functions using a clean dictionary dispatch table `actions.get(choice)`. Breaks loop on option `"8"`.
 
 ---
 
-## 9. Data Storage Details & Limitations
+## 8. Common Lab Viva Questions & Answers
 
-### How Storage Works
-- The application uses `storage.py` to persist data in a local JSON file named `data.json`.
-- When the app starts, `storage.load_data()` safely reads and parses `data.json`. If the file does not exist, is empty, or contains malformed JSON, it returns an empty default structure (`{"projects": [], "tasks": []}`) without crashing.
-- Whenever a project or task is created, marked completed, or deleted, `storage.save_data()` writes the full updated dictionary back to `data.json` formatted with a 2-space indentation.
+### Q1: What is the main objective of this project?
+> **Answer:** DueLine is a console-based task and project management system that assists students in evaluating whether upcoming deadlines are realistically achievable by comparing estimated workloads against available working hours using deterministic rules.
 
-### Limitations for Academic Lab Projects
-- **Concurrency:** File-based JSON storage does not support concurrent write operations from multiple users. It is designed for single-user local lab demonstrations.
-- **Full File Rewrites:** Every update rewrites the entire JSON document rather than modifying individual rows.
-- **Relational Integrity:** There is no database engine to enforce foreign keys or ACID transactions. Relational integrity (e.g. matching `task.project_id` to existing projects) is handled defensively in Python application logic.
+### Q2: Why did you use JSON for storage instead of SQL or a database?
+> **Answer:** JSON is built directly into Python's standard library (`json` module). It is human-readable, requires zero external database installation or configuration, and is lightweight and portable for lab demonstration.
 
----
+### Q3: How is task risk predicted? Is machine learning used?
+> **Answer:** No machine learning is used. It is a strictly deterministic, rule-based heuristic system. It compares `available_hours` against `estimated_hours` using clear threshold ratios: less than 100% is HIGH risk, between 100% and 120% is MEDIUM risk, and 120% or greater (a 20% safety buffer) is LOW risk.
 
-## 10. Academic Project Disclaimer
+### Q4: How do you prevent the application from crashing on invalid user input?
+> **Answer:** We use defensive programming with `try/except` blocks to catch `ValueError` and `IndexError` when parsing numbers, dates, and list selections. If an invalid value is entered, an error message is printed and the program returns safely to the menu without crashing.
 
-This project was developed for academic laboratory demonstration and viva examination:
-- The deadline risk prediction model is **strictly deterministic and rule-based**.
-- It uses clear mathematical ratios and safety buffers (a 20% margin) comparing estimated hours against available hours.
-- It does **not** employ machine learning, neural networks, or black-box artificial intelligence models. Every output is reproducible, transparent, and directly explainable from user inputs.
+### Q5: What is the significance of `if __name__ == "__main__":`?
+> **Answer:** It ensures that `main()` is only executed when the file is run directly (`python app.py`), and not when the file is imported as a module into another script or test suite.
+
+### Q6: How are tasks linked to projects?
+> **Answer:** Each project has a unique ID (`id`). When a task is created, it stores `project_id` matching its parent project's ID. This mimics a relational foreign key in Python data structures.
+
+### Q7: How is project progress calculated?
+> **Answer:** It is calculated dynamically by counting completed tasks (`completed == True`) divided by total tasks assigned to that project, multiplied by 100. If a project has zero tasks, it safely displays 0.0% to avoid division-by-zero errors (`ZeroDivisionError`).
+
+### Q8: What Python data structures are used in this program?
+> **Answer:** 
+> - **Dictionaries (`dict`):** To represent individual projects and tasks as key-value pairs, and for menu dispatch.
+> - **Lists (`list`):** To store collections of project and task dictionaries.
+> - **Tuples / Primitives:** Floats for hours, strings for names/dates, booleans for completion flags.
+
+### Q9: Why did you create helper functions like `pick_task` and `get_project_stats`?
+> **Answer:** To follow the DRY principle (Don't Repeat Yourself). `pick_task` centralizes index validation for both task completion and deletion. `get_project_stats` centralizes completion percentage calculation for both project listing and the dashboard.
+
+### Q10: How does automatic available hours calculation work?
+> **Answer:** If the user does not specify available hours, the app calculates the number of calendar days between today's date and the deadline date, multiplying by 8 working hours per day.
