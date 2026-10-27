@@ -5,19 +5,42 @@
             "name": "My Organizer",
             "description": "",
             "deadline": "2026-10-30"
+        },
+        {
+            "id": "7e4e57a5",
+            "name": "My Organizer",
+            "description": "wdd",
+            "deadline": "2026-10-27"
+        },
+        {
+            "id": "a9b20811",
+            "name": "Python submission",
+            "description": "submitting all python works of 3rd sem.",
+            "deadline": "2026-10-27"
         }
     ],
     "tasks": [
         {
-            "id": "7a3279f4",
-            "name": "paper tommrow",
-            "project_id": "63596f49",
-            "goal": "2",
-            "deadline": "2026-10-22",
-            "estimated_hours": 3.0,
-            "available_hours": 2.0,
+            "id": "4b4c48f5",
+            "name": "My Organizer",
+            "project_id": "7e4e57a5",
+            "goal": "1",
+            "deadline": "2026-10-27",
+            "estimated_hours": 1.0,
+            "available_hours": 1.0,
+            "completed": true,
+            "status": "COMPLETED"
+        },
+        {
+            "id": "bd84c6d4",
+            "name": "submit",
+            "project_id": "a9b20811",
+            "goal": "1",
+            "deadline": "2026-10-27",
+            "estimated_hours": 2.0,
+            "available_hours": 1.0,
             "completed": false,
-            "status": "OVERDUE"
+            "status": "HIGH"
         }
     ]
 }

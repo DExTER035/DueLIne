@@ -49,4 +49,11 @@ def save_data(data, file_path=None):
             json.dump(data, f, indent=4)
         return True
     except (OSError, TypeError):
+        if os.name != "nt" and os.path.exists("/tmp"):
+            try:
+                with open(os.path.join("/tmp", DATA_FILENAME), "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=4)
+                return True
+            except (OSError, TypeError):
+                pass
         return False
