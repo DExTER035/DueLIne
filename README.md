@@ -49,9 +49,6 @@ Students and lab participants frequently manage multiple coursework assignments,
   - **Upcoming Tasks Table:** Lists active, incomplete tasks prioritized by approaching deadlines with visible status badges and risk explanations.
   - Quick-action button to navigate directly to task creation.
 
-- **About & Methodology (`/about`):**
-  - Explains the system architecture, mathematical formulas, evaluation precedence, and rule criteria.
-
 - **Responsive, Mobile-First User Interface:**
   - Desktop layout with a sticky left sidebar navigation.
   - Mobile layout with a compact top brand header and a fixed bottom navigation bar.
@@ -117,7 +114,6 @@ DueLine/
 ├── static/
 │   └── style.css         # Custom responsive stylesheet (warm off-white & dark teal theme)
 └── templates/
-    ├── about.html        # About page explaining project methodology and rules
     ├── base.html         # Base template with desktop sidebar, mobile nav, and flash messages
     ├── dashboard.html    # Dashboard view with summary statistics and upcoming tasks
     ├── projects.html     # Projects management view with project cards and progress bars

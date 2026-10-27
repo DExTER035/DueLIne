@@ -17,7 +17,6 @@
                     <li class="nav-item"><a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" {% if request.endpoint == 'dashboard' %}aria-current="page"{% endif %}><span class="nav-icon" aria-hidden="true">&#9635;</span><span class="nav-text">Dashboard</span></a></li>
                     <li class="nav-item"><a href="{{ url_for('projects') }}" class="nav-link {% if request.endpoint == 'projects' %}active{% endif %}" {% if request.endpoint == 'projects' %}aria-current="page"{% endif %}><span class="nav-icon" aria-hidden="true">&#9638;</span><span class="nav-text">Projects</span></a></li>
                     <li class="nav-item"><a href="{{ url_for('tasks') }}" class="nav-link {% if request.endpoint == 'tasks' %}active{% endif %}" {% if request.endpoint == 'tasks' %}aria-current="page"{% endif %}><span class="nav-icon" aria-hidden="true">&#9745;</span><span class="nav-text">Tasks</span></a></li>
-                    <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" {% if request.endpoint == 'about' %}aria-current="page"{% endif %}><span class="nav-icon" aria-hidden="true">&#9432;</span><span class="nav-text">About</span></a></li>
                 </ul>
             </nav>
             <footer class="sidebar-footer"><small class="footer-note">College Python Lab Mini-Project</small></footer>
@@ -39,7 +38,6 @@
             <a href="{{ url_for('dashboard') }}" class="bottom-nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" {% if request.endpoint == 'dashboard' %}aria-current="page"{% endif %}><span class="bottom-nav-icon" aria-hidden="true">&#9635;</span><span class="bottom-nav-text">Dashboard</span></a>
             <a href="{{ url_for('projects') }}" class="bottom-nav-link {% if request.endpoint == 'projects' %}active{% endif %}" {% if request.endpoint == 'projects' %}aria-current="page"{% endif %}><span class="bottom-nav-icon" aria-hidden="true">&#9638;</span><span class="bottom-nav-text">Projects</span></a>
             <a href="{{ url_for('tasks') }}" class="bottom-nav-link {% if request.endpoint == 'tasks' %}active{% endif %}" {% if request.endpoint == 'tasks' %}aria-current="page"{% endif %}><span class="bottom-nav-icon" aria-hidden="true">&#9745;</span><span class="bottom-nav-text">Tasks</span></a>
-            <a href="{{ url_for('about') }}" class="bottom-nav-link {% if request.endpoint == 'about' %}active{% endif %}" {% if request.endpoint == 'about' %}aria-current="page"{% endif %}><span class="bottom-nav-icon" aria-hidden="true">&#9432;</span><span class="bottom-nav-text">About</span></a>
         </nav>
     </div>
 </body>

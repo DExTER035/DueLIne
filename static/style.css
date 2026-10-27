@@ -187,23 +187,6 @@ progress.project-progress-bar::-webkit-progress-value { background: #1D5368; bor
 progress.project-progress-bar::-moz-progress-bar { background: #1D5368; border-radius: 4px; }
 .project-tasks-count { font-size: 0.8rem; color: #71817D; text-align: right; }
 
-/* About Page */
-.about-content { display: flex; flex-direction: column; gap: 1.5rem; }
-.about-card { background: #FFFFFF; border: 1px solid #E6E2D8; border-radius: 8px; padding: 1.5rem; }
-.about-text { font-size: 0.95rem; color: #283D40; line-height: 1.6; margin-bottom: 0.85rem; }
-.about-text:last-child { margin-bottom: 0; }
-.about-subsection { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid #F0ECE4; }
-.subsection-title { font-size: 1.05rem; font-weight: 700; color: #283D40; margin-bottom: 0.75rem; }
-.precedence-list, .about-list { padding-left: 1.25rem; font-size: 0.95rem; color: #283D40; line-height: 1.6; }
-.precedence-list { margin-bottom: 1rem; }
-.precedence-list li, .about-list li { margin-bottom: 0.4rem; }
-.formula-box { background: #FAF9F5; border: 1px solid #E6E2D8; border-radius: 6px; padding: 0.85rem 1.25rem; margin: 0.85rem 0; font-size: 0.95rem; color: #1D5368; font-weight: 600; }
-.formula-box code { background: transparent; border: none; padding: 0; font-size: 1em; color: inherit; }
-.tech-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1rem; }
-@media (min-width: 600px) { .tech-grid { grid-template-columns: repeat(2, 1fr); } }
-.tech-item { background: #FAF9F5; border: 1px solid #E6E2D8; border-radius: 6px; padding: 1.15rem; }
-.tech-title { font-size: 0.95rem; font-weight: 700; color: #283D40; margin-bottom: 0.35rem; }
-.tech-desc { font-size: 0.85rem; color: #71817D; line-height: 1.45; }
 
 /* Accessibility: Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
