@@ -172,7 +172,7 @@ python app.py
 ### 7. Access in Browser
 Open your web browser and navigate to:
 ```
-http://127.0.0.1:5000/
+thedueline.vercel.app
 ```
 
 Press `Ctrl + C` in the terminal to stop the server when finished.
