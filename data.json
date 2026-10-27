@@ -1,0 +1,23 @@
+{
+    "projects": [
+        {
+            "id": "63596f49",
+            "name": "My Organizer",
+            "description": "",
+            "deadline": "2026-10-30"
+        }
+    ],
+    "tasks": [
+        {
+            "id": "7a3279f4",
+            "name": "paper tommrow",
+            "project_id": "63596f49",
+            "goal": "2",
+            "deadline": "2026-10-22",
+            "estimated_hours": 3.0,
+            "available_hours": 2.0,
+            "completed": false,
+            "status": "OVERDUE"
+        }
+    ]
+}

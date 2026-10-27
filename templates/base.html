@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DueLine — Stay ahead of every deadline.{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="app-body">
+    <div class="app-container">
+        <!-- Desktop Left Sidebar Navigation -->
+        <aside class="sidebar" aria-label="Main Navigation">
+            <div class="brand">
+                <a href="{{ url_for('dashboard') }}" class="brand-link">
+                    <span class="brand-name">DueLine</span>
+                </a>
+                <p class="brand-tagline">Stay ahead of every deadline.</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" {% if request.endpoint == 'dashboard' %}aria-current="page"{% endif %}>
+                            <span class="nav-icon" aria-hidden="true">&#9635;</span>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('projects') }}" class="nav-link {% if request.endpoint == 'projects' %}active{% endif %}" {% if request.endpoint == 'projects' %}aria-current="page"{% endif %}>
+                            <span class="nav-icon" aria-hidden="true">&#9638;</span>
+                            <span class="nav-text">Projects</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('tasks') }}" class="nav-link {% if request.endpoint == 'tasks' %}active{% endif %}" {% if request.endpoint == 'tasks' %}aria-current="page"{% endif %}>
+                            <span class="nav-icon" aria-hidden="true">&#9745;</span>
+                            <span class="nav-text">Tasks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('about') }}" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" {% if request.endpoint == 'about' %}aria-current="page"{% endif %}>
+                            <span class="nav-icon" aria-hidden="true">&#9432;</span>
+                            <span class="nav-text">About</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <footer class="sidebar-footer">
+                <small class="footer-note">College Python Lab Mini-Project</small>
+            </footer>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content" id="main-content">
+            <!-- Mobile Top Header -->
+            <header class="mobile-header">
+                <div class="brand-mobile">
+                    <span class="brand-name">DueLine</span>
+                    <span class="brand-tagline-mobile">Stay ahead of every deadline.</span>
+                </div>
+            </header>
+
+            <!-- Flash Notifications -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <section class="flash-container" aria-label="System Notifications">
+                        {% for category, message in messages %}
+                            <div class="flash-message flash-{{ category }}" role="alert">
+                                <span class="flash-text">{{ message }}</span>
+                            </div>
+                        {% endfor %}
+                    </section>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Dynamic Content Injected by Child Templates -->
+            <div class="page-container">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+
+        <!-- Mobile Bottom Navigation Bar -->
+        <nav class="bottom-nav" aria-label="Mobile Navigation">
+            <a href="{{ url_for('dashboard') }}" class="bottom-nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" {% if request.endpoint == 'dashboard' %}aria-current="page"{% endif %}>
+                <span class="bottom-nav-icon" aria-hidden="true">&#9635;</span>
+                <span class="bottom-nav-text">Dashboard</span>
+            </a>
+            <a href="{{ url_for('projects') }}" class="bottom-nav-link {% if request.endpoint == 'projects' %}active{% endif %}" {% if request.endpoint == 'projects' %}aria-current="page"{% endif %}>
+                <span class="bottom-nav-icon" aria-hidden="true">&#9638;</span>
+                <span class="bottom-nav-text">Projects</span>
+            </a>
+            <a href="{{ url_for('tasks') }}" class="bottom-nav-link {% if request.endpoint == 'tasks' %}active{% endif %}" {% if request.endpoint == 'tasks' %}aria-current="page"{% endif %}>
+                <span class="bottom-nav-icon" aria-hidden="true">&#9745;</span>
+                <span class="bottom-nav-text">Tasks</span>
+            </a>
+            <a href="{{ url_for('about') }}" class="bottom-nav-link {% if request.endpoint == 'about' %}active{% endif %}" {% if request.endpoint == 'about' %}aria-current="page"{% endif %}>
+                <span class="bottom-nav-icon" aria-hidden="true">&#9432;</span>
+                <span class="bottom-nav-text">About</span>
+            </a>
+        </nav>
+    </div>
+</body>
+</html>
