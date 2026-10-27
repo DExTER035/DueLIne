@@ -1,26 +1,19 @@
 {% extends "base.html" %}
-
 {% block title %}Projects — DueLine{% endblock %}
-
 {% block content %}
 <div class="projects-page">
-    <!-- Page Header -->
     <header class="page-header">
         <div class="page-header-text">
             <h1 class="page-title">My Projects</h1>
             <p class="page-subtitle">Organize related tasks into focused projects and track collective completion progress.</p>
         </div>
     </header>
-
-    <!-- Layout: Project Cards & Add Project Form -->
     <div class="projects-layout">
-        <!-- Project List / Cards Section -->
         <section class="projects-list-section" aria-label="Projects List">
             <div class="section-header">
                 <h2 class="section-title">Active Projects</h2>
                 <span class="section-count">{{ projects | length }} {{ 'project' if projects | length == 1 else 'projects' }}</span>
             </div>
-
             {% if projects %}
                 <div class="project-cards-grid">
                     {% for project in projects %}
@@ -34,31 +27,16 @@
                                     {% set d_str = project.deadline | default('', true) | string | trim %}
                                     {% if d_str|length == 10 and d_str[4] == '-' and d_str[7] == '-' and d_str[:4]|int >= 1000 and d_str[5:7]|int >= 1 and d_str[5:7]|int <= 12 and d_str[8:10]|int >= 1 and d_str[8:10]|int <= 31 %}
                                         <time datetime="{{ d_str }}">{{ d_str }}</time>
-                                    {% else %}
-                                        <span class="text-muted">No deadline</span>
-                                    {% endif %}
+                                    {% else %}<span class="text-muted">No deadline</span>{% endif %}
                                 </div>
                             </header>
-
-                            <div class="project-card-body">
-                                <p class="project-description">
-                                    {{ project.description | default('No description provided.', true) }}
-                                </p>
-                            </div>
-
+                            <div class="project-card-body"><p class="project-description">{{ project.description | default('No description provided.', true) }}</p></div>
                             <footer class="project-card-footer">
-                                <div class="project-progress-meta">
-                                    <span class="progress-label">Progress</span>
-                                    <strong class="progress-percent">{{ prog_clamped }}%</strong>
-                                </div>
-
+                                <div class="project-progress-meta"><span class="progress-label">Progress</span><strong class="progress-percent">{{ prog_clamped }}%</strong></div>
                                 <div class="project-progress-wrapper" role="progressbar" aria-valuenow="{{ prog_clamped }}" aria-valuemin="0" aria-valuemax="100" aria-label="Completion progress for {{ project.name | default('Project', true) }}: {{ prog_clamped }}%">
                                     <progress class="project-progress-bar" value="{{ prog_clamped }}" max="100">{{ prog_clamped }}%</progress>
                                 </div>
-
-                                <div class="project-tasks-count">
-                                    <span>{{ project.completed_tasks | default(0, true) }} of {{ project.total_tasks | default(0, true) }} tasks completed</span>
-                                </div>
+                                <div class="project-tasks-count"><span>{{ project.completed_tasks | default(0, true) }} of {{ project.total_tasks | default(0, true) }} tasks completed</span></div>
                             </footer>
                         </article>
                     {% endfor %}
@@ -71,36 +49,23 @@
                 </div>
             {% endif %}
         </section>
-
-        <!-- Add Project Form Section -->
         <section class="add-project-section" aria-label="Add New Project">
             <div class="form-card">
-                <header class="form-header">
-                    <h2 class="form-title">Add Project</h2>
-                    <p class="form-subtitle">Create a new workspace for your tasks.</p>
-                </header>
-
+                <header class="form-header"><h2 class="form-title">Add Project</h2><p class="form-subtitle">Create a new workspace for your tasks.</p></header>
                 <form action="{{ url_for('projects') }}" method="POST" class="app-form">
                     <div class="form-group">
                         <label for="project-name" class="form-label">Project Name <span class="required" aria-hidden="true">*</span></label>
                         <input type="text" id="project-name" name="name" class="form-input" placeholder="e.g., Python Lab Mini-Project" required>
                     </div>
-
                     <div class="form-group">
                         <label for="project-description" class="form-label">Description</label>
                         <textarea id="project-description" name="description" class="form-textarea" rows="3" placeholder="Brief notes about the project goals..."></textarea>
                     </div>
-
                     <div class="form-group">
                         <label for="project-deadline" class="form-label">Deadline <span class="required" aria-hidden="true">*</span></label>
                         <input type="date" id="project-deadline" name="deadline" class="form-input" required>
                     </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <span>Create Project</span>
-                        </button>
-                    </div>
+                    <div class="form-actions"><button type="submit" class="btn btn-primary btn-block"><span>Create Project</span></button></div>
                 </form>
             </div>
         </section>
