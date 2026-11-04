@@ -1,4 +1,0 @@
-# DueLine Python Mini-Project Dependencies
-# Note: Python standard library modules (os, json, datetime, math, uuid) do not need to be listed.
-
-Flask>=3.0.0
