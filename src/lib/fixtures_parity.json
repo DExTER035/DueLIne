@@ -1,0 +1,591 @@
+[
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 0,
+    "available_hours": 0,
+    "expected": "LOW"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 0,
+    "available_hours": 10,
+    "expected": "LOW"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 0,
+    "available_hours": 0.0,
+    "expected": "LOW"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": 0,
+    "expected": "HIGH"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": 9.99,
+    "expected": "HIGH"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": 10.0,
+    "expected": "MEDIUM"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": 11.99,
+    "expected": "MEDIUM"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": 12.0,
+    "expected": "LOW"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": 12.01,
+    "expected": "LOW"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": 50,
+    "expected": "LOW"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 5.5,
+    "available_hours": 5.5,
+    "expected": "MEDIUM"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 5.5,
+    "available_hours": 6.59,
+    "expected": "MEDIUM"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 5.5,
+    "available_hours": 6.6,
+    "expected": "LOW"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": -1,
+    "available_hours": 10,
+    "expected": "INVALID"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": -1,
+    "expected": "INVALID"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": -5,
+    "available_hours": -5,
+    "expected": "INVALID"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": "10",
+    "available_hours": "10",
+    "expected": "MEDIUM"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": "10",
+    "available_hours": "12",
+    "expected": "LOW"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": "10",
+    "available_hours": "9",
+    "expected": "HIGH"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": "abc",
+    "available_hours": 10,
+    "expected": "INVALID"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": "xyz",
+    "expected": "INVALID"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": null,
+    "available_hours": 10,
+    "expected": "INVALID"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": null,
+    "expected": "INVALID"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": "",
+    "available_hours": 10,
+    "expected": "INVALID"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": 10,
+    "available_hours": "",
+    "expected": "INVALID"
+  },
+  {
+    "type": "calculate_task_risk",
+    "estimated_hours": "   ",
+    "available_hours": 10,
+    "expected": "INVALID"
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-11-04",
+    "expected_valid": true,
+    "expected_str": "2026-11-04"
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2024-02-29",
+    "expected_valid": true,
+    "expected_str": "2024-02-29"
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-02-29",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-04-30",
+    "expected_valid": true,
+    "expected_str": "2026-04-30"
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-04-31",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-12-31",
+    "expected_valid": true,
+    "expected_str": "2026-12-31"
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-13-01",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-00-10",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-10-00",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-10-32",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026/11/04",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": "04-11-2026",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-11-4",
+    "expected_valid": true,
+    "expected_str": "2026-11-04"
+  },
+  {
+    "type": "parse_deadline",
+    "input": " 2026-11-04 ",
+    "expected_valid": true,
+    "expected_str": "2026-11-04"
+  },
+  {
+    "type": "parse_deadline",
+    "input": "2026-11-04T00:00:00",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": "",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": null,
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": 12345,
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "parse_deadline",
+    "input": "not-a-date",
+    "expected_valid": false,
+    "expected_str": null
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": true,
+    "deadline_str": "2026-11-04",
+    "estimated_hours": 10,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "COMPLETED"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": true,
+    "deadline_str": "2020-01-01",
+    "estimated_hours": 10,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "COMPLETED"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": true,
+    "deadline_str": "invalid-date",
+    "estimated_hours": 10,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "COMPLETED"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": true,
+    "deadline_str": "2026-11-04",
+    "estimated_hours": -5,
+    "available_hours": -5,
+    "current_date": "2026-11-04",
+    "expected": "COMPLETED"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": true,
+    "deadline_str": null,
+    "estimated_hours": null,
+    "available_hours": null,
+    "current_date": "2026-11-04",
+    "expected": "COMPLETED"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "invalid-date",
+    "estimated_hours": 10,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "INVALID"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-02-29",
+    "estimated_hours": 10,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "INVALID"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": null,
+    "estimated_hours": 10,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "INVALID"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "",
+    "estimated_hours": 10,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "INVALID"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-03",
+    "estimated_hours": 10,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "OVERDUE"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2020-01-01",
+    "estimated_hours": 10,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "OVERDUE"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-03",
+    "estimated_hours": -10,
+    "available_hours": -10,
+    "current_date": "2026-11-04",
+    "expected": "OVERDUE"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-04",
+    "estimated_hours": 5,
+    "available_hours": null,
+    "current_date": "2026-11-04",
+    "expected": "HIGH"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-04",
+    "estimated_hours": 0,
+    "available_hours": null,
+    "current_date": "2026-11-04",
+    "expected": "LOW"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-04",
+    "estimated_hours": 5,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "LOW"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-04",
+    "estimated_hours": 5,
+    "available_hours": 5.5,
+    "current_date": "2026-11-04",
+    "expected": "MEDIUM"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-04",
+    "estimated_hours": 5,
+    "available_hours": 4,
+    "current_date": "2026-11-04",
+    "expected": "HIGH"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-05",
+    "estimated_hours": 5,
+    "available_hours": null,
+    "current_date": "2026-11-04",
+    "expected": "LOW"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-05",
+    "estimated_hours": 8,
+    "available_hours": null,
+    "current_date": "2026-11-04",
+    "expected": "MEDIUM"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-05",
+    "estimated_hours": 10,
+    "available_hours": null,
+    "current_date": "2026-11-04",
+    "expected": "HIGH"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-06",
+    "estimated_hours": 15,
+    "available_hours": null,
+    "current_date": "2026-11-04",
+    "expected": "MEDIUM"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-06",
+    "estimated_hours": 20,
+    "available_hours": null,
+    "current_date": "2026-11-04",
+    "expected": "HIGH"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-06",
+    "estimated_hours": 10,
+    "available_hours": null,
+    "current_date": "2026-11-04",
+    "expected": "LOW"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-10",
+    "estimated_hours": 10,
+    "available_hours": 5,
+    "current_date": "2026-11-04",
+    "expected": "HIGH"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-10",
+    "estimated_hours": 10,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "MEDIUM"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-10",
+    "estimated_hours": 10,
+    "available_hours": 11.99,
+    "current_date": "2026-11-04",
+    "expected": "MEDIUM"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-10",
+    "estimated_hours": 10,
+    "available_hours": 12.0,
+    "current_date": "2026-11-04",
+    "expected": "LOW"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-10",
+    "estimated_hours": 10,
+    "available_hours": 15,
+    "current_date": "2026-11-04",
+    "expected": "LOW"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-10",
+    "estimated_hours": -1,
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "INVALID"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-10",
+    "estimated_hours": 10,
+    "available_hours": -1,
+    "current_date": "2026-11-04",
+    "expected": "INVALID"
+  },
+  {
+    "type": "determine_task_status",
+    "is_completed": false,
+    "deadline_str": "2026-11-10",
+    "estimated_hours": "abc",
+    "available_hours": 10,
+    "current_date": "2026-11-04",
+    "expected": "INVALID"
+  },
+  {
+    "type": "get_risk_explanation",
+    "status": "COMPLETED",
+    "expected": "Task is completed. No remaining work or risk."
+  },
+  {
+    "type": "get_risk_explanation",
+    "status": "OVERDUE",
+    "expected": "Deadline has passed and the task is incomplete. Immediate attention required."
+  },
+  {
+    "type": "get_risk_explanation",
+    "status": "HIGH",
+    "expected": "High risk: Available working hours are less than estimated hours needed."
+  },
+  {
+    "type": "get_risk_explanation",
+    "status": "MEDIUM",
+    "expected": "Medium risk: Available hours cover the work, but with less than a 20% time buffer."
+  },
+  {
+    "type": "get_risk_explanation",
+    "status": "LOW",
+    "expected": "Low risk: Sufficient time available with at least a 20% working-time buffer."
+  },
+  {
+    "type": "get_risk_explanation",
+    "status": "INVALID",
+    "expected": "Invalid input: Requires a valid deadline (YYYY-MM-DD) and non-negative numbers."
+  },
+  {
+    "type": "get_risk_explanation",
+    "status": "UNKNOWN_STATUS",
+    "expected": "Status explanation unavailable."
+  },
+  {
+    "type": "get_risk_explanation",
+    "status": "",
+    "expected": "Status explanation unavailable."
+  }
+]
