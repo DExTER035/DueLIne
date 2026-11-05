@@ -1,0 +1,121 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap");
+@import "tailwindcss";
+@plugin "daisyui";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* =========================================================================
+   DueLine — Growth & Clarity Design System Tokens
+   Palette: Deep Forest (#193B35), Sage (#426B5C), Ivory (#E8EEE8),
+            Soft White (#FAFAF6), Mist Green (#A4B99B)
+   ========================================================================= */
+
+:root,
+[data-theme="light"] {
+  --bg-app: #F6F7F2;             /* Soft linen off-white canvas matching mockup */
+  --bg-surface: #FFFFFF;         /* Crisp White cards */
+  --bg-surface-subtle: #F4F6F4;  /* Subdued container background */
+  --bg-sidebar: #132B25;         /* Deep Evergreen sidebar matching mockup */
+  --bg-hover: #E2E8E2;           /* Gentle hover state */
+  
+  --border-subtle: #E2E8E2;      /* Gentle border */
+  --border-strong: #CBD6CB;      /* Focused border */
+  
+  --text-primary: #193B35;       /* Deep Forest primary */
+  --text-secondary: #426B5C;     /* Sage secondary */
+  --text-muted: #6B857C;         /* Muted descriptive text */
+  
+  --brand-primary: #193B35;
+  --brand-primary-hover: #122B27;
+  --brand-accent: #426B5C;
+  --brand-accent-soft: #E8EEE8;  /* Ivory badge background */
+  --brand-mist: #A4B99B;
+  --brand-mist-soft: #EEF3ED;
+
+  /* Card and Sidebar Tokens matching visual reference */
+  --sidebar-bg: #132B25;
+  --sidebar-active-pill: #214339;
+  --sidebar-text-muted: #9BB5A2;
+  --sidebar-border: #1E3D35;
+
+  /* Deterministic Risk & Status Colors */
+  --status-high-bg: #FEECEB;
+  --status-high-text: #B42318;
+  --status-high-border: #FECDCA;
+  
+  --status-med-bg: #FEF6EE;
+  --status-med-text: #B54708;
+  --status-med-border: #FEDF89;
+  
+  --status-low-bg: #ECFDF3;
+  --status-low-text: #027A48;
+  --status-low-border: #A6F4C5;
+}
+
+[data-theme="dark"] {
+  --bg-app: #0D1C19;             /* Deep Forest Night */
+  --bg-surface: #142723;         /* Elevated forest card */
+  --bg-surface-subtle: #19332E;  /* Subdued dark container */
+  --bg-sidebar: #10211D;         /* Dark forest sidebar */
+  --bg-hover: #1E3A34;           /* Subtle dark hover */
+  
+  --border-subtle: #1E3B35;      /* Subtle dark border */
+  --border-strong: #2A4F47;      /* Focused dark border */
+  
+  --text-primary: #FAFAF6;       /* Soft White */
+  --text-secondary: #A4B99B;     /* Mist Green */
+  --text-muted: #7E978F;         /* Muted sage */
+  
+  --brand-primary: #A4B99B;      /* Mist Green in dark mode */
+  --brand-primary-hover: #BFD0B8;
+  --brand-accent: #426B5C;
+  --brand-accent-soft: #1C352F;
+  --brand-mist: #A4B99B;
+  --brand-mist-soft: #1B312B;
+
+  --sidebar-bg: #10211D;
+  --sidebar-active-pill: #1B382F;
+  --sidebar-text-muted: #7E978F;
+  --sidebar-border: #1C372F;
+
+  /* Deterministic Risk & Status Colors (Dark) */
+  --status-high-bg: #371B19;
+  --status-high-text: #F97066;
+  --status-high-border: #5A2723;
+  
+  --status-med-bg: #342211;
+  --status-med-text: #FDB022;
+  --status-med-border: #56391E;
+  
+  --status-low-bg: #0F3223;
+  --status-low-text: #75E0A7;
+  --status-low-border: #185239;
+}
+
+.font-serif {
+  font-family: "Newsreader", "Playfair Display", Georgia, Cambria, "Times New Roman", serif;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Custom scrollbar matching Growth & Clarity theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

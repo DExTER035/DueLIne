@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#132B25" stop-opacity="0" />
+      <stop offset="30%" stop-color="#142F29" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#0E211C" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient id="mist1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#34594E" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#132B25" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="mist2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5A887A" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#132B25" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect width="320" height="200" fill="url(#bgGrad)" />
+
+  <!-- Distant mountain ridges -->
+  <path d="M-20,130 Q40,105 120,120 T260,110 T340,125 L340,200 L-20,200 Z" fill="#1C3D34" opacity="0.5" />
+  <ellipse cx="160" cy="120" rx="180" ry="25" fill="url(#mist2)" />
+
+  <!-- Mid-distance pine forest layer -->
+  <g fill="#18362E" opacity="0.75">
+    <!-- Trees on ridge -->
+    <polygon points="20,135 15,155 25,155" />
+    <polygon points="35,128 30,152 40,152" />
+    <polygon points="50,132 45,154 55,154" />
+    <polygon points="65,124 59,155 71,155" />
+    <polygon points="80,130 75,155 85,155" />
+    <polygon points="98,122 92,152 104,152" />
+    <polygon points="115,126 110,155 120,155" />
+    <polygon points="135,120 128,155 142,155" />
+    <polygon points="152,125 147,155 157,155" />
+    <polygon points="170,118 163,155 177,155" />
+    <polygon points="188,124 182,154 194,154" />
+    <polygon points="205,120 199,152 211,152" />
+    <polygon points="225,125 219,155 231,155" />
+    <polygon points="242,119 236,155 248,155" />
+    <polygon points="260,126 255,155 265,155" />
+    <polygon points="280,122 274,155 286,155" />
+    <polygon points="300,127 295,155 305,155" />
+  </g>
+
+  <!-- Mid mist bank -->
+  <ellipse cx="140" cy="145" rx="190" ry="20" fill="url(#mist1)" />
+
+  <!-- Foreground detailed pine forest -->
+  <g fill="#0F241E">
+    <!-- Tree 1 -->
+    <path d="M12,130 L17,142 L14,142 L19,154 L15,154 L20,170 L5,170 L9,154 L5,154 L10,142 L7,142 Z" />
+    <rect x="11" y="170" width="3" height="15" fill="#0A1814" />
+
+    <!-- Tree 2 (tall) -->
+    <path d="M42,118 L48,132 L44,132 L50,146 L46,146 L53,165 L31,165 L38,146 L34,146 L40,132 L36,132 Z" />
+    <rect x="40.5" y="165" width="3" height="20" fill="#0A1814" />
+
+    <!-- Tree 3 -->
+    <path d="M72,125 L77,138 L74,138 L79,150 L75,150 L81,168 L63,168 L68,150 L64,150 L70,138 L67,138 Z" />
+    <rect x="70.5" y="168" width="3" height="18" fill="#0A1814" />
+
+    <!-- Tree 4 (medium) -->
+    <path d="M102,122 L108,136 L104,136 L110,150 L106,150 L113,168 L91,168 L97,150 L93,150 L99,136 L96,136 Z" />
+    <rect x="100.5" y="168" width="3" height="18" fill="#0A1814" />
+
+    <!-- Tree 5 (accent) -->
+    <path d="M138,128 L143,140 L140,140 L145,152 L141,152 L147,168 L129,168 L134,152 L130,152 L136,140 L133,140 Z" />
+    <rect x="136.5" y="168" width="3" height="18" fill="#0A1814" />
+
+    <!-- Tree 6 (tall center) -->
+    <path d="M175,115 L182,130 L177,130 L184,146 L179,146 L187,166 L163,166 L171,146 L166,146 L173,130 L168,130 Z" />
+    <rect x="173.5" y="166" width="3" height="22" fill="#0A1814" />
+
+    <!-- Tree 7 -->
+    <path d="M212,124 L218,138 L214,138 L220,152 L216,152 L223,170 L201,170 L207,152 L203,152 L209,138 L206,138 Z" />
+    <rect x="210.5" y="170" width="3" height="18" fill="#0A1814" />
+
+    <!-- Tree 8 -->
+    <path d="M248,120 L254,135 L250,135 L257,149 L253,149 L260,168 L236,168 L243,149 L239,149 L246,135 L242,135 Z" />
+    <rect x="246.5" y="168" width="3" height="20" fill="#0A1814" />
+
+    <!-- Tree 9 -->
+    <path d="M285,126 L290,140 L287,140 L292,152 L288,152 L295,170 L275,170 L281,152 L277,152 L283,140 L280,140 Z" />
+    <rect x="283.5" y="170" width="3" height="18" fill="#0A1814" />
+
+    <!-- Tree 10 -->
+    <path d="M312,122 L317,136 L314,136 L320,150 L316,150 L323,168 L301,168 L307,150 L303,150 L309,136 L306,136 Z" />
+    <rect x="310.5" y="168" width="3" height="18" fill="#0A1814" />
+  </g>
+
+  <!-- Foreground base ridge -->
+  <path d="M-10,172 Q80,165 170,170 T330,168 L330,200 L-10,200 Z" fill="#0A1814" />
+</svg>
+

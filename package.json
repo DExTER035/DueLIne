@@ -1,0 +1,34 @@
+{
+  "name": "dueline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "node --experimental-strip-types --test src/lib/risk.test.ts src/lib/supabase/schema.test.ts src/lib/supabase/auth.test.ts src/components/workspace/workspace.test.ts src/lib/dashboard-calculations.test.ts src/lib/boundary-hardening.test.ts"
+  },
+  "dependencies": {
+    "@next/swc-win32-x64-msvc": "^16.4.5",
+    "@supabase/supabase-js": "^2.119.0",
+    "lucide-react": "^1.69.0",
+    "next": "16.4.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.4",
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "daisyui": "^5.7.50",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.5",
+    "supabase": "^3.0.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

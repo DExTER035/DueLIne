@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Background morning mist gradient -->
+    <radialGradient id="morningMist" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#E8EFE5" stop-opacity="0.95" />
+      <stop offset="35%" stop-color="#DBE6D7" stop-opacity="0.85" />
+      <stop offset="65%" stop-color="#C2D6BF" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#8FA88D" stop-opacity="0.9" />
+    </radialGradient>
+
+    <!-- Deep fog layers -->
+    <linearGradient id="fogHorizon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EBF2E8" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#D0DEC9" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#2D5446" stop-opacity="0.8" />
+    </linearGradient>
+
+    <linearGradient id="treeGradFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#678E7D" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#416858" stop-opacity="0.9" />
+    </linearGradient>
+
+    <linearGradient id="treeGradMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3D6656" />
+      <stop offset="100%" stop-color="#214538" />
+    </linearGradient>
+
+    <linearGradient id="treeGradNear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#284E40" />
+      <stop offset="100%" stop-color="#142C23" />
+    </linearGradient>
+
+    <linearGradient id="mistOverlay" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EAF2E7" stop-opacity="0.4" />
+      <stop offset="60%" stop-color="#EAF2E7" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#C0D5BD" stop-opacity="0.2" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky & ambient mist -->
+  <rect width="600" height="400" fill="url(#morningMist)" />
+
+  <!-- Distant mountain silhouette -->
+  <path d="M0,180 Q140,110 280,140 T520,130 Q560,145 600,160 L600,400 L0,400 Z" fill="#7FA292" opacity="0.35" />
+
+  <!-- Far misty pine trees (Left flank) -->
+  <g fill="url(#treeGradFar)">
+    <polygon points="20,130 12,170 28,170" />
+    <polygon points="35,115 25,165 45,165" />
+    <polygon points="52,125 43,172 61,172" />
+    <polygon points="70,105 60,165 80,165" />
+    <polygon points="88,120 78,170 98,170" />
+    <polygon points="105,135 96,175 114,175" />
+  </g>
+
+  <!-- Far misty pine trees (Right flank) -->
+  <g fill="url(#treeGradFar)">
+    <polygon points="495,130 487,175 503,175" />
+    <polygon points="515,110 505,170 525,170" />
+    <polygon points="535,122 525,168 545,168" />
+    <polygon points="555,105 544,168 566,168" />
+    <polygon points="575,118 565,172 585,172" />
+    <polygon points="590,130 582,175 598,175" />
+  </g>
+
+  <!-- Rolling fog wave across middle -->
+  <path d="M0,160 Q150,140 300,165 T600,150 L600,280 L0,280 Z" fill="url(#mistOverlay)" />
+
+  <!-- Mid-ground rich pine tree flank (Left) -->
+  <g fill="url(#treeGradMid)">
+    <!-- Tree A -->
+    <path d="M15,90 L22,110 L18,110 L26,132 L20,132 L29,160 L3,160 L11,132 L6,132 L13,110 L9,110 Z" />
+    <rect x="14" y="160" width="4" height="25" fill="#1B382D" />
+
+    <!-- Tree B (tall) -->
+    <path d="M45,70 L53,95 L48,95 L57,120 L51,120 L61,152 L31,152 L40,120 L35,120 L43,95 L39,95 Z" />
+    <rect x="44" y="152" width="4.5" height="30" fill="#1B382D" />
+
+    <!-- Tree C -->
+    <path d="M80,85 L88,108 L83,108 L92,130 L86,130 L96,158 L68,158 L76,130 L71,130 L79,108 L75,108 Z" />
+    <rect x="79" y="158" width="4" height="25" fill="#1B382D" />
+
+    <!-- Tree D -->
+    <path d="M115,105 L122,125 L118,125 L126,145 L121,145 L130,170 L104,170 L111,145 L107,145 L114,125 L111,125 Z" />
+    <rect x="114" y="170" width="4" height="20" fill="#1B382D" />
+  </g>
+
+  <!-- Mid-ground rich pine tree flank (Right) -->
+  <g fill="url(#treeGradMid)">
+    <!-- Tree E -->
+    <path d="M485,100 L492,122 L488,122 L496,144 L491,144 L500,170 L473,170 L480,144 L476,144 L483,122 L480,122 Z" />
+    <rect x="484" y="170" width="4" height="20" fill="#1B382D" />
+
+    <!-- Tree F (tall) -->
+    <path d="M520,72 L528,96 L523,96 L532,122 L526,122 L537,155 L505,155 L514,122 L509,122 L517,96 L513,96 Z" />
+    <rect x="518" y="155" width="4.5" height="30" fill="#1B382D" />
+
+    <!-- Tree G -->
+    <path d="M555,85 L563,108 L558,108 L567,130 L561,130 L571,158 L543,158 L551,130 L546,130 L554,108 L550,108 Z" />
+    <rect x="554" y="158" width="4" height="25" fill="#1B382D" />
+
+    <!-- Tree H -->
+    <path d="M585,92 L592,114 L588,114 L596,136 L591,136 L600,162 L572,162 L580,136 L576,136 L583,114 L580,114 Z" />
+    <rect x="584" y="162" width="4" height="22" fill="#1B382D" />
+  </g>
+
+  <!-- Lower foreground valley fog -->
+  <path d="M0,210 Q160,195 300,215 T600,205 L600,320 L0,320 Z" fill="#D3E2CF" opacity="0.45" />
+
+  <!-- Dense foreground side silhouettes (Left deep flank) -->
+  <g fill="url(#treeGradNear)">
+    <polygon points="-10,50 15,160 -15,160" />
+    <polygon points="5,70 30,190 -5,190" />
+    <polygon points="25,120 50,220 10,220" />
+  </g>
+
+  <!-- Dense foreground side silhouettes (Right deep flank) -->
+  <g fill="url(#treeGradNear)">
+    <polygon points="610,50 625,160 595,160" />
+    <polygon points="595,70 615,190 575,190" />
+    <polygon points="575,120 595,220 555,220" />
+  </g>
+
+  <!-- Base gradient fade out -->
+  <rect y="260" width="600" height="140" fill="url(#fogHorizon)" opacity="0.8" />
+  <rect y="310" width="600" height="90" fill="#E4EFE0" opacity="0.6" />
+</svg>
+
