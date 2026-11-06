@@ -1,0 +1,92 @@
+{
+  "viewports": [
+    {
+      "name": "desktop_1440",
+      "width": 1440,
+      "height": 900,
+      "mobile": false,
+      "docW": 1440,
+      "scrollW": 1440,
+      "hasOverflow": false
+    },
+    {
+      "name": "laptop_1280",
+      "width": 1280,
+      "height": 800,
+      "mobile": false,
+      "docW": 1280,
+      "scrollW": 1280,
+      "hasOverflow": false
+    },
+    {
+      "name": "tablet_768",
+      "width": 768,
+      "height": 1024,
+      "mobile": false,
+      "docW": 768,
+      "scrollW": 768,
+      "hasOverflow": false
+    },
+    {
+      "name": "mobile_390",
+      "width": 390,
+      "height": 844,
+      "mobile": true,
+      "docW": 390,
+      "scrollW": 390,
+      "hasOverflow": false
+    },
+    {
+      "name": "small_mobile_360",
+      "width": 360,
+      "height": 780,
+      "mobile": true,
+      "docW": 360,
+      "scrollW": 360,
+      "hasOverflow": false
+    }
+  ],
+  "overflows": [],
+  "consoleErrors": [],
+  "todayFunctional": {
+    "initialCounts": {
+      "match": "2 of 5 completed",
+      "completed": 2,
+      "total": 5
+    },
+    "afterToggle": {
+      "match": "3 of 5 completed",
+      "completed": 3,
+      "total": 5
+    },
+    "timerRunning": {
+      "isPauseVisible": true,
+      "timeText": "24:59"
+    },
+    "timer50Min": "50:00"
+  },
+  "goalsFunctional": {
+    "cardTitles": [
+      "Build a consistent writing habit",
+      "Launch my personal project"
+    ],
+    "hasNewProjectBtn": true
+  },
+  "journeyFunctional": {
+    "hasTimeline": true,
+    "hasPeriodReview": true,
+    "hasReflectionArchive": true
+  },
+  "chaptersFunctional": {
+    "hasDraftBtn": true,
+    "hasReadyToReveal": true,
+    "hasSealedVault": true
+  },
+  "persistence": {
+    "today": {
+      "match": "3 of 5 completed",
+      "reflectionText": "",
+      "timerText": "25:00"
+    }
+  }
+}
